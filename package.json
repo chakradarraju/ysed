@@ -1,6 +1,6 @@
 {
   "name": "ysed",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "YAML processor",
   "main": "index.js",
   "scripts": {
@@ -13,5 +13,6 @@
   },
   "bin": {
     "ysed": "./index.js"
-  }
+  },
+  "keywords": ["ysed", "yaml", "sed", "kubernetes", "cli"]
 }
