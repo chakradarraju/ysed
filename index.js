@@ -4,7 +4,7 @@ const yaml = require('yaml');
 const {readFileSync} = require('fs');
 
 function envUpdateKey(str) {
-    const res = /^env\((.*)\)$/.exec(str);
+    const res = /^env\[(.*)\]$/.exec(str);
     return res ? res[1] : null;
 }
 
@@ -27,7 +27,7 @@ function parseUpdate(arg) {
 
 function set(doc, path, value) {
     if (path.length === 1) {
-        console.log('Setting', value, 'in', doc.toJSON());
+        console.warn('Setting', value, 'in', doc.toJSON());
         doc.set(path[0], value);
         return;
     }
@@ -37,7 +37,7 @@ function set(doc, path, value) {
         const r = /^(.*)\[(\d+)\]$/;
         const res = r.exec(key);
         if (!res || !doc.has(res[1]) || !doc.get(res[1]).has(parseInt(res[2]))) {
-            console.log('Unable to find', key, 'in doc', doc.toJSON());
+            console.warn('Unable to find', key, 'in doc', doc.toJSON());
             return;    
         } else {
             key = res[1];
@@ -91,7 +91,7 @@ if (process.argv.length < 3) {
     process.exit(1);
 }
 
-console.log('Reading file', process.argv[2]);
+console.warn('Reading file', process.argv[2]);
 const docs = yaml.parseAllDocuments(readFileSync(process.argv[2], 'utf8'));
 for (var i = 3; i < process.argv.length; i++) {
     docs.forEach(doc => update(doc, parseUpdate(process.argv[i])));
