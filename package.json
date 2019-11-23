@@ -1,0 +1,17 @@
+{
+  "name": "ysed",
+  "version": "0.0.1",
+  "description": "YAML processor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "yaml": "^1.7.2"
+  },
+  "bin": {
+    "ysed": "./index.js"
+  }
+}
