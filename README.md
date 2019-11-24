@@ -1,10 +1,11 @@
 # YAML sed
 
-YAML sed helps you to modify yaml files from command line easily.
+YAML sed helps you to modify yaml files from command line.
 
 # Installation
 
 `npm i -g ysed`
+
 To install npm see [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm).
 
 # Usage
@@ -19,12 +20,12 @@ This can be used with kubectl:
 
 ## Supported updates
 
-* `some.path[index].to.element=new_value`
-If an element matches given path exactly in any YAML document in input file, value of that field will be updated to `new_value`
-* `env(ENV_VARIABLE_NAME)=new_value`
-Any environment variable in containers match ENV_VARIABLE_NAME, then it's value will be updated to `new_value`
+### Update specific path
+`some.path[index].to.element=new_value`: If an element matches given path exactly in any YAML document in input file, value of that field will be updated to `new_value`
+### Update an environment variable
+`env(ENV_VARIABLE_NAME)=new_value`: Any environment variable in containers match ENV_VARIABLE_NAME, then it's value will be updated to `new_value`
 
-### Example
+## Example
 
 ```
 file: my_yaml
@@ -86,3 +87,7 @@ will print:
           - name: VAR5
             value: new_value1
 ```
+
+# Feature requests
+
+If you've specific feature requests, send pull request in [Github](https://github.com/chakradarraju/ysed) or message [me](https://chakradarraju.github.io/).

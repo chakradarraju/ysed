@@ -1,12 +1,12 @@
 {
   "name": "ysed",
-  "version": "0.0.3",
-  "description": "YAML processor",
+  "version": "0.0.4",
+  "description": "YAML sed helps you to modify yaml files from command line.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "chakradarraju@gmail.com",
   "license": "ISC",
   "dependencies": {
     "yaml": "^1.7.2"
@@ -14,5 +14,13 @@
   "bin": {
     "ysed": "./index.js"
   },
-  "keywords": ["ysed", "yaml", "sed", "kubernetes", "cli"]
+  "keywords": ["ysed", "yaml", "sed", "kubernetes", "cli"],
+  "bugs": {
+    "url" : "https://github.com/chakradarraju/ysed/issues",
+    "email" : "chakradarraju@gmail.com"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/chakradarraju/ysed.git"
+  }
 }
