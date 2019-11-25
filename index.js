@@ -13,11 +13,27 @@ function valueUpdateKey(str) {
     return res ? res[1] : null;
 }
 
+function configFile(str) {
+    const res = /^config\[(.*)\]$/.exec(str);
+    return res ? res[1] : null;
+}
+
+function readUpdates(config) {
+    if (!config) return [];
+    return readFileSync(config, 'utf8')
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => !!line.length)
+        .map(line => parseUpdate(line));
+}
+
 function parseUpdate(arg) {
+    const config = configFile(arg);
+    if (config) return readUpdates(config);
     const parts = arg.split('=');
     if (parts.length !== 2) {
         console.error('Unable to understand update', arg);
-        return null;
+        return [];
     }
     const envUpdate = envUpdateKey(parts[0]);
     if (envUpdate) return {
@@ -114,7 +130,6 @@ if (process.argv.length < 3) {
 
 console.warn('Reading file', process.argv[2]);
 const docs = yaml.parseAllDocuments(readFileSync(process.argv[2], 'utf8'));
-for (var i = 3; i < process.argv.length; i++) {
-    docs.forEach(doc => update(doc, parseUpdate(process.argv[i])));
-}
+const updates = flat(process.argv.slice(3).map(upd => parseUpdate(upd)));
+docs.forEach(doc => updates.forEach(upd => update(doc, upd)));
 console.log(docs.map(doc => yaml.stringify(doc)).join('---\n'));

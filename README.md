@@ -16,7 +16,7 @@ ysed reads the yaml file, applies specified updates and writes updated yaml into
 
 This can be used with kubectl:
 
-`ysed <yaml> [updates] | kubectl apply -f-`
+`ysed <yaml> [updates] | kubectl apply -f -`
 
 ## Supported updates
 
@@ -26,6 +26,8 @@ This can be used with kubectl:
 `env[ENV_VARIABLE_NAME]=new_value`: Any environment variable in containers match ENV_VARIABLE_NAME, then it's value will be updated to `new_value`.
 ### Update matching values
 `value[old_value]=new_value`: Any value matching old_value will be updated to `new_value`.
+### Updates config
+`config[update_file.ysed]`: Each line in update_file will be processed like a command line update.
 
 ## Example
 

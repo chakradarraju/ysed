@@ -14,9 +14,8 @@
             "program": "${workspaceFolder}/index.js",
             "args": [
                 "test/test.yaml",
-                "env[MODEL_VERSION]=v4",
-                "env[MODEL_TYPE]=my_questions",
-                "value[test]=new_test"
+                "env[VAR1]=new_val2",
+                "config[test/updates.ysed]"
             ]
         }
     ]

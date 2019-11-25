@@ -1,7 +1,7 @@
 {
   "name": "ysed",
-  "version": "0.0.4",
-  "description": "YAML sed helps you to modify yaml files from command line.",
+  "version": "0.0.5",
+  "description": "YAML sed: Command line YAML editor.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
