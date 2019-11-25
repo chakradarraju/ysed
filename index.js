@@ -2,6 +2,7 @@
 
 const yaml = require('yaml');
 const {readFileSync} = require('fs');
+const path = require('path');
 
 function envUpdateKey(str) {
     const res = /^env\[(.*)\]$/.exec(str);
@@ -14,22 +15,26 @@ function valueUpdateKey(str) {
 }
 
 function configFile(str) {
-    const res = /^config\[(.*)\]$/.exec(str);
-    return res ? res[1] : null;
+    const res = /^.*\.ysed$/.exec(str);
+    return res ? res[0] : null;
 }
 
-function readUpdates(config) {
+function isYamlFile(str) {
+    const res = /^.*\.yaml$/.exec(str);
+    return res ? res[0] : null;
+}
+
+function readFile(config) {
     if (!config) return [];
     return readFileSync(config, 'utf8')
         .split('\n')
         .map(line => line.trim())
-        .filter(line => !!line.length)
-        .map(line => parseUpdate(line));
+        .filter(line => !!line.length);
 }
 
 function parseUpdate(arg) {
     const config = configFile(arg);
-    if (config) return readUpdates(config);
+    if (config) return readFile(config).map(line => parseUpdate(line));
     const parts = arg.split('=');
     if (parts.length !== 2) {
         console.error('Unable to understand update', arg);
@@ -129,7 +134,20 @@ if (process.argv.length < 3) {
 }
 
 console.warn('Reading file', process.argv[2]);
-const docs = yaml.parseAllDocuments(readFileSync(process.argv[2], 'utf8'));
-const updates = flat(process.argv.slice(3).map(upd => parseUpdate(upd)));
+const commandLineConfigFile = configFile(process.argv[2]);
+var yamlFile = process.argv[2];
+var initUpdates = [];
+if (commandLineConfigFile) {
+    initUpdates = readFile(commandLineConfigFile);
+    if (isYamlFile(initUpdates[0])) {
+        yamlFile = path.join(path.dirname(commandLineConfigFile), initUpdates.shift());
+    } else {
+        console.error('Pass yaml file to process');
+        process.exit(1);
+    }
+    initUpdates = initUpdates.map(upd => parseUpdate(upd));
+}
+const docs = yaml.parseAllDocuments(readFileSync(yamlFile, 'utf8'));
+const updates = initUpdates.concat(flat(process.argv.slice(3).map(upd => parseUpdate(upd))));
 docs.forEach(doc => updates.forEach(upd => update(doc, upd)));
 console.log(docs.map(doc => yaml.stringify(doc)).join('---\n'));

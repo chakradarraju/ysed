@@ -10,7 +10,7 @@ To install npm see [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm
 
 # Usage
 
-`ysed <some_yaml_file.yaml> [updates]`
+`ysed (<some_yaml_file.yaml>|<some_ysed_file.ysed>) [updates]`
 
 ysed reads the yaml file, applies specified updates and writes updated yaml into stdout.
 
@@ -27,7 +27,7 @@ This can be used with kubectl:
 ### Update matching values
 `value[old_value]=new_value`: Any value matching old_value will be updated to `new_value`.
 ### Updates config
-`config[update_file.ysed]`: Each line in update_file will be processed like a command line update.
+`update_file.ysed`: Each line in update_file will be processed like a command line update. If passed instead of yaml file as first parameter to ysed, then first line in ysed file is expected to be relative path to yaml template.
 
 ## Example
 

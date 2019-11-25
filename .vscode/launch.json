@@ -13,9 +13,8 @@
             ],
             "program": "${workspaceFolder}/index.js",
             "args": [
-                "test/test.yaml",
-                "env[VAR1]=new_val2",
-                "config[test/updates.ysed]"
+                "test/updates.ysed",
+                "env[VAR1]=new_val2"
             ]
         }
     ]
