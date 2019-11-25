@@ -13,9 +13,10 @@
             ],
             "program": "${workspaceFolder}/index.js",
             "args": [
-                "/home/chakradarraju/workspace/stringsai/gce-config/online_serving/fastai/online-serving-model-fastai_prod.yaml",
-                "env(MODEL_VERSION)=v4",
-                "env(MODEL_TYPE)=my_questions"
+                "test/test.yaml",
+                "env[MODEL_VERSION]=v4",
+                "env[MODEL_TYPE]=my_questions",
+                "value[test]=new_test"
             ]
         }
     ]

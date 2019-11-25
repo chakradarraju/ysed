@@ -8,6 +8,11 @@ function envUpdateKey(str) {
     return res ? res[1] : null;
 }
 
+function valueUpdateKey(str) {
+    const res = /^value\[(.*)\]$/.exec(str);
+    return res ? res[1] : null;
+}
+
 function parseUpdate(arg) {
     const parts = arg.split('=');
     if (parts.length !== 2) {
@@ -19,10 +24,15 @@ function parseUpdate(arg) {
         env: envUpdate,
         value: parts[1]
     };
+    const valueUpdate = valueUpdateKey(parts[0]);
+    if (valueUpdate) return {
+        matchValue: valueUpdate,
+        value: parts[1]
+    };
     return {
         path: parts[0],
         value: parts[1]
-    }
+    };
 }
 
 function set(doc, path, value) {
@@ -77,9 +87,20 @@ function updateEnv(root, env, value) {
     });
 }
 
+function updateValuesItem(item, matchValue, value) {
+    if (item.value.type === 'PLAIN' && item.value.value === matchValue) item.value.value = value;
+    else if (item.value.type === 'MAP') updateValues(item.value, matchValue, value);
+}
+
+function updateValues(doc, matchValue, value) {
+    doc.items.forEach(item => updateValuesItem(item, matchValue, value));
+}
+
 function update(doc, updateOp) {
     if (updateOp.hasOwnProperty('env')) {
         updateEnv(doc.contents, updateOp.env, updateOp.value);
+    } if (updateOp.hasOwnProperty('matchValue')) {
+        updateValues(doc.contents, updateOp.matchValue, updateOp.value);
     } else if (updateOp.hasOwnProperty('path')) {
         const parts = updateOp.path.split('.');
         set(doc, parts, updateOp.value);            
@@ -96,4 +117,4 @@ const docs = yaml.parseAllDocuments(readFileSync(process.argv[2], 'utf8'));
 for (var i = 3; i < process.argv.length; i++) {
     docs.forEach(doc => update(doc, parseUpdate(process.argv[i])));
 }
-console.log(yaml.stringify(docs));
+console.log(docs.map(doc => yaml.stringify(doc)).join('---\n'));

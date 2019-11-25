@@ -21,9 +21,11 @@ This can be used with kubectl:
 ## Supported updates
 
 ### Update specific path
-`some.path[index].to.element=new_value`: If an element matches given path exactly in any YAML document in input file, value of that field will be updated to `new_value`
+`some.path[index].to.element=new_value`: If an element matches given path exactly in any YAML document in input file, value of that field will be updated to `new_value`.
 ### Update an environment variable
-`env(ENV_VARIABLE_NAME)=new_value`: Any environment variable in containers match ENV_VARIABLE_NAME, then it's value will be updated to `new_value`
+`env[ENV_VARIABLE_NAME]=new_value`: Any environment variable in containers match ENV_VARIABLE_NAME, then it's value will be updated to `new_value`.
+### Update matching values
+`value[old_value]=new_value`: Any value matching old_value will be updated to `new_value`.
 
 ## Example
 
