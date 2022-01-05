@@ -1,3 +1,4 @@
 test.yaml
 env[VAR3]=new_val1
+value[container1]=new_container1
 value[test]=new_test

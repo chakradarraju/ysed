@@ -1,6 +1,6 @@
 {
   "name": "ysed",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "YAML sed: Command line YAML editor.",
   "main": "index.js",
   "scripts": {

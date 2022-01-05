@@ -108,13 +108,23 @@ function updateEnv(root, env, value) {
     });
 }
 
+function updateValuesPlainItem(item, matchValue, value) {
+  if (item.value.value === matchValue) item.value.value = value;
+}
+
 function updateValuesItem(item, matchValue, value) {
-    if (item.value.type === 'PLAIN' && item.value.value === matchValue) item.value.value = value;
+    if (item.value.type === 'PLAIN') updateValuesPlainItem(item, matchValue, value);
     else if (item.value.type === 'MAP') updateValues(item.value, matchValue, value);
+    else if (item.value.type === 'SEQ') updateSeqValues(item.value, matchValue, value);
+    else console.warn('Ignoring item of type', item.value);
 }
 
 function updateValues(doc, matchValue, value) {
     doc.items.forEach(item => updateValuesItem(item, matchValue, value));
+}
+
+function updateSeqValues(doc, matchValue, value) {
+    doc.items.forEach(item => updateValues(item, matchValue, value));
 }
 
 function update(doc, updateOp) {
